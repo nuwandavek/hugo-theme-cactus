@@ -1,7 +1,7 @@
 {{ define "main" }}
   <section id="about">
   {{ if isset .Site.Params "description" }}
-    {{ .Site.Params.description }}
+    <p>{{ .Site.Params.description | safeHTML}}</p>
   {{ end }}
   {{ if isset .Site.Params "social" }}
       <p>Find me on
@@ -76,7 +76,7 @@
       {{ if isset .Site.Params "postsonhomepage" }}
         {{ .Scratch.Set "count" .Site.Params.postsOnHomePage }}
       {{ end }}
-      {{ range (first (.Scratch.Get "count") $mainPosts) }}
+      {{ range (first (.Scratch.Get "count") (where site.RegularPages "Type" "in" site.Params.mainSections)) }}
         <li class="post-item">
           <div class="meta"><time datetime="{{ time .Date }}" itemprop="datePublished">{{ .Date.Format $dataFormat }}</time></div>
           <span><a href="{{ .Permalink }}">{{ if .Title }} {{- .Title -}} {{ else }} {{- print "Untitled" -}}{{ end }}</a></span>
@@ -98,11 +98,11 @@
       {{ $projectsUrl = .Site.Params.projectsUrl }}
     {{ end }}
   <section id="projects">
-    <span class="h1"><a href="{{ $projectsUrl }}">Projects</a></span>
+    <span class="h1"><a href="{{ $projectsUrl }}">Side-Projects</a></span>
     <ul class="project-list">
         {{ range .Site.Data.projects.list }}
         <li class="project-item">
-          <a href="{{ .url }}">{{ .name }}</a>: {{ .desc | markdownify }}
+          <a class="project-title" href="{{ .url }}">{{ .name }}</a>: {{ .desc | markdownify }}
         </li>
         {{ end }}
     </ul>
