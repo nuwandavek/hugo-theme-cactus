@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ . | absURL }}">
   {{- end }}
 
+  {{ partial "extend_head.html" . }}
   {{ partial "favicon.html" . }}
   {{ if .Site.Params.rss }}
   {{ with .OutputFormats.Get "RSS" }}
